@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso d3js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        svg {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <script>
+        var dataArray = ["30", "15", "50", "70"];
+        var width = 500;
+        var height = 500;
+        const canvas = d3.select("body")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // const circle = canvas.selectAll("cirlce")
+        //                         .data(dataArray)
+        //                         .enter()
+        //                             .append("circle")
+        //                             .attr("cx", function (d,i){return d*5;})
+        //                             .attr("cy",50)
+        //                             .attr("r",30)
+        //                             .attr("fill","red");
+
+        const widthScale = d3.scaleLinear()
+            .domain([0, 80])
+            .range([0, width]);
+
+        const colorScale = d3.scaleLinear()
+            .domain([0, 80])
+            .range(["red", "blue"]);
+
+
+        const rects = canvas.selectAll("rect")
+            .data(dataArray)
+            .enter()
+            .append("rect")
+            .attr("width", 50)
+            .attr("height", 50)
+            //.attr("fill", function (d) { return colorScale(d); })
+            .attr("fill", "#000")
+            .attr("y", 0);
+
+        // console.log(rect);
+
+        // d3.selectAll("rect").transition(rects)
+        //     .duration(1500)
+        //     .style("fill", "red");
+
+        rects.transition()
+            .duration(1000)
+            .attr("y", function (d,i){return i*100})
+            .transition()
+            .duration(1500)
+            .attr("width", function (d) { return widthScale(d); })
+            .attr("fill", function (d) { return colorScale(d); });
+
+
+    </script>
+</body>
+
+</html>
